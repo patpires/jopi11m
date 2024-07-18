@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         { word: 'conto', hint: 'Um ... de natal (Charles Dickens) (5 letras)' },
         { word: 'presépio', hint: 'Cena Natalina (8 letras)' },
         { word: 'estrela', hint: 'Fica no topo da nossa árvore (7 letras)' },
-        { word: 'jesus', hint: 'Ele habita dentro de nós(5 letras)' },
+        { word: 'jesus', hint: 'Ele está no meio de nós (5 letras)' },
         { word: 'luz', hint: 'Jesus é a nossa... (3 letras)' },
         { word: 'maria', hint: 'Bendita, entre as mulheres (5 letras)' },
         { word: 'amor', hint: 'Ele veio irradiar o... (4 letras)' },
@@ -37,8 +37,22 @@ document.addEventListener('DOMContentLoaded', (event) => {
         { x: 0.65, y: 0.20, lit: false }
     ];
 
-    const backgroundImage = new Image();
-    backgroundImage.src = 'tree-background.jpg';
+    const backgroundImages = [
+        'tree-background.jpg',
+        'tree-background1.jpg',
+        'tree-background2.jpg',
+        'tree-background3.jpg',
+        'tree-background4.jpg',
+        'tree-background5.jpg',
+        'tree-background6.jpg',
+        'tree-background7.jpg',
+        'tree-background8.jpg',
+        'tree-background9.jpg',
+        'tree-background10.jpg'
+    ];
+
+    let backgroundImage = new Image();
+    backgroundImage.src = backgroundImages[0];
 
     const transparente = new Image();
     transparente.src = 'transparente.png';
@@ -52,6 +66,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
         'spark3.png',
         'spark4.png'
     ];
+
+    // Preload all background images
+    const preloadedBackgrounds = backgroundImages.map(src => {
+        const img = new Image();
+        img.src = src;
+        return img;
+    });
 
     function resizeCanvas() {
         canvas.width = canvas.clientWidth;
@@ -110,6 +131,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             currentWordIndex++;
             message.textContent = 'Correto! Continue...';
             wordInput.value = '';
+            updateBackground();
             drawScene();
 
             if (checkWin()) {
@@ -122,6 +144,32 @@ document.addEventListener('DOMContentLoaded', (event) => {
         } else {
             message.textContent = 'Tente novamente!';
         }
+    }
+
+    function updateBackground() {
+        if (currentWordIndex < preloadedBackgrounds.length) {
+            const newBackgroundImage = preloadedBackgrounds[currentWordIndex];
+            fadeIn(newBackgroundImage);
+        }
+    }
+
+    function fadeIn(newImage) {
+        const fadeDuration = 500; // Duration of the fade effect in milliseconds
+        let opacity = 0;
+        const fadeStep = 50; // Time between each step in milliseconds
+
+        const fadeInterval = setInterval(() => {
+            opacity += fadeStep / fadeDuration;
+            if (opacity >= 1) {
+                opacity = 1;
+                clearInterval(fadeInterval);
+            }
+            ctx.globalAlpha = opacity;
+            ctx.drawImage(newImage, 0, 0, canvas.width, canvas.height);
+            ctx.globalAlpha = 1; // Reset alpha to default for other drawings
+        }, fadeStep);
+
+        backgroundImage = newImage; // Update the current background image
     }
 
     function startBlinking() {
