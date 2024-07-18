@@ -1,0 +1,87 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #000; /* Fundo preto para destacar o texto branco */
+}
+
+#game-container {
+    text-align: center;
+    padding: 20px;
+}
+
+h1, #message, #hint {
+    color: #fff; /* Cor branca para o título, mensagens e dicas */
+}
+
+#gameCanvas {
+    border: 1px solid #000;
+    width: 100%;
+    max-width: 1000px;
+    height: auto;
+    background: url('tree-background.jpg') no-repeat center center;
+    background-size: cover; /* Garante que a imagem de fundo cubra todo o canvas sem deformar */
+}
+
+#input-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+#wordInput {
+    padding: 10px;
+    font-size: 1rem;
+    width: 60%;
+    max-width: 300px;
+}
+
+#submitButton {
+    padding: 10px 20px;
+    font-size: 1rem;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+#hint {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    color: blue;
+}
+
+#message {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    color: green;
+}
+
+.sparkle {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    animation: sparkle-animation 1s ease-out;
+}
+
+@keyframes sparkle-animation {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(2);
+    }
+}
+
+@media (max-width: 600px) {
+    #wordInput {
+        width: 80%;
+        margin-bottom: 10px;
+    }
+
+    #submitButton {
+        width: 80%;
+    }
+}
